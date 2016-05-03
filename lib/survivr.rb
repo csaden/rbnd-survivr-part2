@@ -22,7 +22,7 @@ require_relative "jury"
 
 #This is where you will write your code for the three phases
 def phase_one
-  for round in 1..8 do
+  8.times do
     losing_tribe = @borneo.immunity_challenge
     if losing_tribe == @coyopa
       voted_off = @coyopa.tribal_council
@@ -33,38 +33,35 @@ def phase_one
     end
     tribe_loss_message losing_tribe, voted_off
   end
-  round
 end
 
 def phase_two
-  for round in 1..3 do
+  3.times do
     immune = @borneo.individual_immunity_challenge
     voted_off = @merge_tribe.tribal_council immune: immune
     @merge_tribe.members.delete voted_off
     voted_off_message voted_off
   end
-  round
 end
 
 def phase_three
-  for round in 1..7 do
+  7.times do |round|
     immune = @borneo.individual_immunity_challenge
     voted_off = @merge_tribe.tribal_council immune: immune
     voted_off_message voted_off
     @jury.add_member voted_off
-    puts "#{voted_off} is the #{round.ordinal} person to join the jury."
+    puts "#{voted_off}".capitalize.blue + " is the #{(round + 1).ordinal} person to join the jury."
     @merge_tribe.members.delete voted_off
   end
-  round
 end
 
 def tribe_loss_message losing_tribe, voted_off
-  puts "#{losing_tribe} lost the immunity challenge."
-  puts "#{losing_tribe} voted off #{voted_off}. The tribe has spoken."
+  puts "#{losing_tribe}".capitalize.red + " lost the immunity challenge."
+  puts "#{losing_tribe}".capitalize.red + " voted off " +"#{voted_off}".capitalize.yellow + ". The tribe has spoken."
 end
 
 def voted_off_message loser
-  puts "#{loser} has been eliminated. The tribe has spoken."
+  puts "#{loser}".capitalize.yellow + " has been eliminated. The tribe has spoken."
 end
 
 # If all the tests pass, the code below should run the entire simulation!!
@@ -75,6 +72,8 @@ phase_two #3 more eliminations
 @jury = Jury.new
 phase_three #7 elminiations become jury members
 finalists = @merge_tribe.members #set finalists
+names = finalists.map{|finalist| finalist.name.capitalize.magenta}
+puts "The two finalists are " + names.join(" and ") + "."
 vote_results = @jury.cast_votes(finalists) #Jury members report votes
 @jury.report_votes(vote_results) #Jury announces their votes
 @jury.announce_winner(vote_results) #Jury announces final winner

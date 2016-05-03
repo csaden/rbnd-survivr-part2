@@ -29,6 +29,7 @@ class Game
   def merge name
     contestants = tribes.map(&:members).flatten
     new_tribe = Tribe.new name: name, members: contestants
+    clear_tribes
     add_tribe new_tribe
     new_tribe
   end

@@ -4,18 +4,15 @@ class Tribe
   def initialize options={}
     @name = options[:name]
     @members = options[:members]
-    puts "#{self} with members: " + "#{members.map {|member| member.name.capitalize}}".yellow
+    names = members.map{|member| member.name.capitalize.light_grey}
+    puts "#{self}".cyan + " with members: " + names.join(", ") + "."
   end
 
   def tribal_council options={}
-    voted_off = nil
-    while voted_off.nil? or voted_off == options[:immune]
-      voted_off = @members.sample
-    end
-    voted_off
+    @members.reject {|member| member == options[:immune]}.sample
   end
 
   def to_s
-    @name.capitalize.cyan
+    @name.capitalize
   end
 end

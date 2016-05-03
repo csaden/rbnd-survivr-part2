@@ -14,14 +14,14 @@ class Jury
       vote_for = finalists.sample
       result[vote_for] = 0 if result[vote_for].nil?
       result[vote_for] += 1
-      puts "One vote for #{vote_for}."
+      puts "#{member}".capitalize.blue + " voted for " + "#{vote_for}".capitalize.magenta + "."
       result
     end
   end
 
   def report_votes final_votes
     final_votes.each do |finalist, votes|
-      puts "#{finalist} got #{votes} votes."
+      puts "#{finalist}".capitalize.magenta + " received #{votes} votes."
     end
   end
 
