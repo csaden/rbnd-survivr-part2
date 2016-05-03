@@ -4,7 +4,10 @@ class Game
   attr_reader :tribes
 
   def initialize *tribes
-    @tribes = tribes
+    @tribes = []
+    tribes.each do |tribe|
+      @tribes << tribe
+    end
   end
 
   def add_tribe tribe
@@ -25,6 +28,8 @@ class Game
 
   def merge name
     contestants = tribes.map(&:members).flatten
-    @tribes = Tribe.new name: name, members: contestants
+    new_tribe = Tribe.new name: name, members: contestants
+    add_tribe new_tribe
+    new_tribe
   end
 end
