@@ -1,4 +1,5 @@
 require "colorizr"
+require_relative "ordinal"
 require_relative "game"
 require_relative "tribe"
 require_relative "contestant"
@@ -22,14 +23,15 @@ require_relative "jury"
 #This is where you will write your code for the three phases
 def phase_one
   for round in 1..8 do
-    tribe_safe = @borneo.immunity_challenge
-    if tribe_safe == @coyopa
+    losing_tribe = @borneo.immunity_challenge
+    if losing_tribe == @coyopa
       voted_off = @coyopa.tribal_council
       @coyopa.members.delete voted_off
     else
       voted_off = @hunapu.tribal_council
       @hunapu.members.delete voted_off
     end
+    tribe_loss_message losing_tribe, voted_off
   end
   round
 end
@@ -39,6 +41,7 @@ def phase_two
     immune = @borneo.individual_immunity_challenge
     voted_off = @merge_tribe.tribal_council immune: immune
     @merge_tribe.members.delete voted_off
+    voted_off_message voted_off
   end
   round
 end
@@ -47,12 +50,22 @@ def phase_three
   for round in 1..7 do
     immune = @borneo.individual_immunity_challenge
     voted_off = @merge_tribe.tribal_council immune: immune
+    voted_off_message voted_off
     @jury.add_member voted_off
+    puts "#{voted_off} is the #{round.ordinal} person to join the jury."
     @merge_tribe.members.delete voted_off
   end
   round
 end
 
+def tribe_loss_message losing_tribe, voted_off
+  puts "#{losing_tribe} lost the immunity challenge."
+  puts "#{losing_tribe} voted off #{voted_off}. The tribe has spoken."
+end
+
+def voted_off_message loser
+  puts "#{loser} has been eliminated. The tribe has spoken."
+end
 
 # If all the tests pass, the code below should run the entire simulation!!
 #=========================================================

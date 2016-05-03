@@ -14,19 +14,21 @@ class Jury
       vote_for = finalists.sample
       result[vote_for] = 0 if result[vote_for].nil?
       result[vote_for] += 1
-      puts "One vote for #{vote_for.name.capitalize}."
+      puts "One vote for #{vote_for}."
       result
     end
   end
 
   def report_votes final_votes
     final_votes.each do |finalist, votes|
-      puts "#{finalist.name.capitalize} got #{votes} votes."
+      puts "#{finalist} got #{votes} votes."
     end
   end
 
   def announce_winner final_votes
-    p final_votes.key final_votes.values.max
+    winner = final_votes.key final_votes.values.max
+    puts "The winner of Survivor is #{winner.name.capitalize}!".white
+    winner
   end
 end
 

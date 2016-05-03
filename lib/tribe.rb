@@ -4,7 +4,7 @@ class Tribe
   def initialize options={}
     @name = options[:name]
     @members = options[:members]
-    puts "#{name} with members: #{members.map {|member| member.name.capitalize}}"
+    puts "#{self} with members: " + "#{members.map {|member| member.name.capitalize}}".yellow
   end
 
   def tribal_council options={}
@@ -16,6 +16,6 @@ class Tribe
   end
 
   def to_s
-    "#{name}"
+    @name.capitalize.cyan
   end
 end

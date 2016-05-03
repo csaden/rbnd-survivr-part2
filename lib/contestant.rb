@@ -6,6 +6,6 @@ class Contestant
   end
 
   def to_s
-    @name
+    @name.capitalize.red
   end
 end
